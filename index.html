@@ -1,44 +1,34 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>360 Video</title>
-    <meta name="description" content="360 Video — A-Frame">
-    <script src="../../../dist/aframe-master.js"></script>
-    <script src="../../js/play-on-click.js"></script>
-    <script src="../../js/hide-on-play.js"></script>
-  </head>
-  <body>
-    <a-scene>
-      <a-assets>
-        <!--
-        SOURCE
-        Author: Bitmovin
-        URL:    https://bitmovin.com/demos/vr-360
-        -->
-        <video id="video"
-               autoplay loop
-               crossorigin="anonymous"
-               playsinline webkit-playsinline
-               src="maite1.mp4">
-        </video>
-      </a-assets>
-      <a-videosphere
-        rotation="0 -90 0" src="#video"
-        play-on-click>
-      </a-videosphere>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Clappr Video360</title>
+    </head>
+    <body>
+        <!-- 1. Create a div where the player will be placed -->
+        <div id="player"></div>
 
-      <a-camera>
-        <a-entity
-          position="0 0 -1.5"
-          text="align:center;
-                width:6;
-                wrapCount:100;
-                color: white;
-                value: Click or tap to start video"
-          hide-on-play="#video">
-        </a-entity>
-      </a-camera>
-    </a-scene>
-  </body>
+        <!-- 2. Include Clappr and the 360 videoplayer plugin-->
+        <script src="https://cdn.jsdelivr.net/gh/clappr/clappr@latest/dist/clappr.min.js"></script>
+        <script src="https://cdn.rawgit.com/thiagopnts/clappr-video360/master/dist/clappr-video360.min.js"></script>
+
+        <!-- 3. Configure video player-->
+        <script>
+            // The URL to the 360 video player 
+            var Video360Url = 'maite1.mp4';
+
+            // Configure your Clappr player.
+            var PlayerInstance = new Clappr.Player({
+                source: Video360Url,
+                plugins: {
+                    container: [Video360],
+                },
+                parentId: '#player',
+            });
+
+            // Important to disable the click to pause native plugin of clappr
+            // otherwise you won't be able to use correctly the player
+            PlayerInstance.getPlugin('click_to_pause').disable();
+        </script>
+    </body>
 </html>
